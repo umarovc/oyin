@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1-sinf: O'yin bilan o'rganamiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFF6D6; --ink:#22304F; --sun:#FFC933; --sky:#39A0FF;
+  --leaf:#2DBE7E; --coral:#FF6F61; --grape:#8E6CEF;
+  --font:"Baloo 2","Trebuchet MS",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{font-family:var(--font);background:var(--paper);color:var(--ink);
+  background-image:radial-gradient(circle at 12% 18%,#ffe8a0 0 90px,transparent 91px),radial-gradient(circle at 92% 88%,#cfeaff 0 120px,transparent 121px);
+  background-attachment:fixed;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit;color:inherit;cursor:pointer;border:0}
+button:focus-visible{outline:4px solid var(--ink);outline-offset:3px}
+ 
+.top{display:flex;align-items:center;gap:12px;padding:14px 18px;max-width:900px;margin:auto}
+.top h1{flex:1;font-size:clamp(1.2rem,4vw,1.9rem);font-weight:800}
+.stars{background:var(--sun);border-radius:999px;padding:4px 16px;font-weight:800;font-size:1.3rem;box-shadow:0 4px 0 #d9a400}
+.round{width:52px;height:52px;border-radius:50%;background:#fff;font-size:1.6rem;box-shadow:0 4px 0 #c9c2a4}
+ 
+main{max-width:900px;margin:auto;padding:8px 18px 40px}
+.screen[hidden],[hidden]{display:none!important}
+.hello{font-size:1.4rem;font-weight:700;margin:6px 0 18px;text-align:center}
+ 
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{display:flex;flex-direction:column;align-items:center;gap:2px;padding:22px 10px;border-radius:28px;color:#fff;
+  box-shadow:0 8px 0 rgba(0,0,0,.2);transition:transform .12s}
+.card:hover{transform:translateY(-3px) rotate(-1deg)}
+.card:active{transform:translateY(5px);box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.card b{font-size:1.6rem;font-weight:800}
+.card small{font-size:1rem;font-weight:500;opacity:.95}
+.big{font-size:3.6rem;line-height:1.1}
+.c-letters{background:var(--coral)}.c-count{background:var(--sky)}
+.c-add{background:var(--leaf)}.c-memory{background:var(--grape)}
+ 
+.progress{height:16px;background:#fff;border-radius:99px;overflow:hidden;margin:6px 0 20px;box-shadow:inset 0 2px 0 #e6dfc0}
+#bar{height:100%;width:0;background:var(--leaf);border-radius:99px;transition:width .4s}
+ 
+#stage{text-align:center}
+.q{font-size:clamp(1.4rem,5vw,2rem);font-weight:800;margin-bottom:10px}
+.visual{font-size:clamp(2.4rem,9vw,4.2rem);background:#fff;border-radius:28px;padding:18px;margin:0 auto 22px;
+  max-width:640px;line-height:1.3;box-shadow:0 6px 0 #e6dfc0;word-break:break-word}
+.visual.word{font-size:clamp(4rem,16vw,7rem);padding:10px}
+.visual .label{display:block;font-size:1.6rem;font-weight:700;color:var(--coral)}
+.opts{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.opt{min-width:96px;height:96px;padding:0 22px;border-radius:26px;background:var(--sky);color:#fff;font-size:2.6rem;font-weight:800;
+  box-shadow:0 7px 0 #1f78c8;transition:transform .1s}
+.opt:nth-child(2){background:var(--coral);box-shadow:0 7px 0 #c9483c}
+.opt:nth-child(3){background:var(--leaf);box-shadow:0 7px 0 #1a935c}
+.opt:nth-child(4){background:var(--grape);box-shadow:0 7px 0 #6446c9}
+.opt:active{transform:translateY(5px)}
+.opt.ok{outline:6px solid var(--sun)}
+.opt.bad{animation:shake .35s}
+.opt:disabled{cursor:default}
+@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+ 
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:520px;margin:auto}
+.tile{aspect-ratio:1;border-radius:22px;background:var(--grape);color:#fff;font-size:2.4rem;box-shadow:0 6px 0 #6446c9;
+  transition:transform .25s;display:grid;place-items:center}
+.tile.up{background:#fff;color:var(--ink);box-shadow:0 6px 0 #e6dfc0;font-size:clamp(2rem,10vw,3.4rem)}
+.tile.done{background:var(--leaf);box-shadow:0 6px 0 #1a935c;transform:scale(.94)}
+ 
+#result{text-align:center;padding-top:20px}
+.trophy{font-size:6rem;animation:bounce 1s ease-out}
+#result h2{font-size:2.2rem;font-weight:800;margin:6px 0}
+.resStars{font-size:3rem;margin:8px 0 22px;letter-spacing:6px}
+.row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{background:var(--leaf);color:#fff;font-size:1.5rem;font-weight:800;padding:12px 30px;border-radius:22px;box-shadow:0 6px 0 #1a935c}
+.btn.alt{background:var(--sky);box-shadow:0 6px 0 #1f78c8}
+.btn:active{transform:translateY(4px)}
+@keyframes bounce{0%{transform:scale(.2)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+ 
+#pop{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;font-size:7rem;opacity:0}
+#pop.show{animation:pop .8s ease-out}
+@keyframes pop{0%{opacity:0;transform:scale(.3)}30%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:scale(1) translateY(-40px)}}
+ 
+@media (min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+ 
+.tabs{display:flex;justify-content:center;gap:10px;margin-bottom:18px}
+.tab{background:#fff;font-size:1.4rem;font-weight:800;padding:8px 26px;border-radius:99px;box-shadow:0 5px 0 #e6dfc0}
+.tab.on{background:var(--ink);color:#fff;box-shadow:0 5px 0 #0f1830}
+.c-mul{background:#F2994A}.c-div{background:#EB5B8C}.c-addsub{background:#12A5A5}.c-cmp{background:#5B6CEB}
+.visual.expr{font-size:clamp(3rem,13vw,5.5rem);font-weight:800}
+ 
+.tabs{flex-wrap:wrap}
+.tab{font-size:1.1rem;padding:6px 16px}
+@media (min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+ 
+/* telefon uchun tuzatishlar */
+.opt{height:auto;min-height:88px;padding:10px 20px;max-width:100%;line-height:1.15;font-size:clamp(1.6rem,7vw,2.6rem)}
+.opt.long{font-size:clamp(1.05rem,4.6vw,1.5rem);flex:1 1 100%}
+.card{min-width:0;padding:18px 8px}
+.card b{font-size:clamp(1.1rem,4.6vw,1.6rem);line-height:1.15;text-align:center}
+.card small{text-align:center;line-height:1.2}
+.visual{overflow-wrap:anywhere}
+.visual.expr{font-size:clamp(2rem,10vw,5rem)}
+.q{line-height:1.2}
+@media (max-width:420px){.big{font-size:3rem}.top{padding:10px 12px}main{padding:6px 12px 30px}.tab{font-size:1rem;padding:5px 12px}}
+ 
+</style>
+</head>
+<body>
+<header class="top">
+  <button id="homeBtn" class="round" aria-label="Bosh sahifa" hidden>🏠</button>
+  <h1>O'yin bilan o'rganamiz</h1>
+  <div class="stars" aria-label="Yulduzlar">⭐ <span id="starCount">0</span></div>
+</header>
+ 
+<main>
+  <section id="menu" class="screen">
+    <p class="hello">Salom, o'quvchi! Qaysi o'yinni o'ynaymiz?</p>
+    <div class="tabs" id="grades"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+ 
+  <section id="game" class="screen" hidden>
+    <div class="progress"><div id="bar"></div></div>
+    <div id="stage"></div>
+  </section>
+ 
+  <section id="result" class="screen" hidden>
+    <div class="big trophy">🏆</div>
+    <h2 id="resTitle"></h2>
+    <div id="resStars" class="resStars"></div>
+    <div class="row">
+      <button class="btn" id="againBtn">Yana o'ynash</button>
+      <button class="btn alt" id="menuBtn">Menyu</button>
+    </div>
+  </section>
+</main>
+<div id="pop" aria-hidden="true"></div>
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const rand = n => Math.floor(Math.random() * n);
+const shuffle = a => a.map(v => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map(x => x[1]);
+const ROUND = 5;
+ 
+/* ---------- Yulduzlar (brauzerda saqlanadi) ---------- */
+let stars = 0;
+try { stars = +localStorage.getItem('stars') || 0; } catch (e) {}
+const showStars = () => $('#starCount').textContent = stars;
+function addStar() {
+  stars++; showStars();
+  try { localStorage.setItem('stars', stars); } catch (e) {}
+}
+ 
+/* ---------- Ovoz va effekt ---------- */
+let ctx;
+function beep(freqs) {
+  try {
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime + i * 0.12;
+      o.frequency.value = f; o.type = 'triangle';
+      g.gain.setValueAtTime(0.2, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+      o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + 0.26);
+    });
+  } catch (e) {}
+}
+function pop(emoji) {
+  const p = $('#pop'); p.textContent = emoji;
+  p.classList.remove('show'); void p.offsetWidth; p.classList.add('show');
+}
+const good = () => { beep([523, 659, 784]); pop(['🎉', '🌟', '👏', '😀'][rand(4)]); };
+const bad = () => beep([220, 180]);
+ 
+/* ---------- Ekranlar ---------- */
+function show(id) {
+  ['menu', 'game', 'result'].forEach(s => $('#' + s).hidden = s !== id);
+  $('#homeBtn').hidden = id === 'menu';
+}
+ 
+/* ---------- Savollar ---------- */
+const WORDS = [
+  ['🍎', 'Olma', 'O'], ['🐟', 'Baliq', 'B'], ['🐱', 'Mushuk', 'M'], ['🌞', 'Quyosh', 'Q'],
+  ['🐘', 'Fil', 'F'], ['🌳', 'Daraxt', 'D'], ['🦁', 'Sher', 'S'], ['🌸', 'Gul', 'G'],
+  ['📖', 'Kitob', 'K'], ['🍞', 'Non', 'N'], ['🐰', 'Quyon', 'Q'], ['🚗', 'Avto', 'A']
+];
+const ANIMALS = ['🍎', '⭐', '🐟', '🎈', '🐥', '🍓', '🚗', '🌸'];
+ 
+ 
+const SUP = ['', '', '²', '³', '⁴', '⁵', '⁶'], SUB = {2: '₂', 3: '₃', 5: '₅', 10: '₁₀'};
+const px = (c, n) => `${c}x${SUP[n] || ''}`;
+function near(ans, neg) {
+  const s = new Set([ans]);
+  while (s.size < 3) { const v = ans + (rand(2) ? 1 : -1) * (1 + rand(10)); if (neg || v >= 0) s.add(v); }
+  return shuffle([...s]);
+}
+const mc = (q, raw, ans, ...wrong) => ({ q, raw, opts: shuffle([ans, ...wrong]), answer: ans });
+const num = (q, raw, ans, neg) => ({ q, raw, opts: near(ans, neg), answer: ans });
+const bank = list => { let st = []; return () => { if (!st.length) st = shuffle(list.slice()); const [t, c, ...w] = st.pop(); return mc(t, '', c, ...w); }; };
+ 
+const G = {};
+const def = (id, i, t, s, make) => G[id] = { i, t, s, make };
+ 
+def('letters', '🍎', 'Harflar', 'Birinchi harfni top', () => {
+  const [e, w, l] = WORDS[rand(WORDS.length)];
+  const rest = 'ABDFGKMNOQSUX'.split('').filter(c => c !== l);
+  return { q: 'Bu so\'z qaysi harfdan boshlanadi?', visual: `${e}<span class="label">${w}</span>`, big: 1, opts: shuffle([l, ...shuffle(rest).slice(0, 2)]), answer: l };
+});
+def('count', '🔢', 'Sanaymiz', 'Nechta ekanini top', () => {
+  const n = 1 + rand(10), e = ANIMALS[rand(ANIMALS.length)];
+  return { q: 'Nechta bor?', visual: e.repeat(n), opts: near(n), answer: n };
+});
+def('add', '➕', 'Qo\'shamiz', 'Rasmli misollar', () => {
+  const a = 1 + rand(5), b = 1 + rand(5), e = ANIMALS[rand(ANIMALS.length)];
+  return { q: `${a} + ${b} = ?`, visual: `${e.repeat(a)} ➕ ${e.repeat(b)}`, opts: near(a + b), answer: a + b };
+});
+def('addsub', '🧮', '100 ichida', 'Qo\'shish, ayirish', () => {
+  if (rand(2)) { const a = 10 + rand(80), b = 1 + rand(100 - a); return num('Qo\'shing', `${a} + ${b} = ?`, a + b); }
+  const a = 20 + rand(80), b = 1 + rand(a - 1); return num('Ayiring', `${a} − ${b} = ?`, a - b);
+});
+def('cmp', '⚖️', 'Taqqoslash', '>, < yoki =', () => {
+  const a = 10 + rand(90), b = rand(4) ? 10 + rand(90) : a;
+  return { q: 'Qaysi belgi kerak?', raw: `${a} ❓ ${b}`, opts: shuffle(['>', '<', '=']), answer: a > b ? '>' : a < b ? '<' : '=' };
+});
+def('mul', '✖️', 'Ko\'paytirish', 'Jadvalni bil', () => { const a = 2 + rand(8), b = 2 + rand(8); return num('Ko\'paytiring', `${a} × ${b} = ?`, a * b); });
+def('div', '➗', 'Bo\'lish', 'Teng bo\'l', () => { const b = 2 + rand(8), r = 2 + rand(8); return num('Bo\'ling', `${b * r} ÷ ${b} = ?`, r); });
+def('mul2', '✖️', 'Katta sonlar', 'Ko\'paytirish, bo\'lish', () => {
+  if (rand(2)) { const a = 11 + rand(15), b = 2 + rand(8); return num('Ko\'paytiring', `${a} × ${b} = ?`, a * b); }
+  const b = 2 + rand(8), r = 11 + rand(20); return num('Bo\'ling', `${b * r} ÷ ${b} = ?`, r);
+});
+def('big', '💯', '1000 ichida', 'Qo\'shish, ayirish', () => {
+  if (rand(2)) { const a = 100 + rand(500), b = 50 + rand(400); return num('Qo\'shing', `${a} + ${b} = ?`, a + b); }
+  const a = 300 + rand(600), b = 50 + rand(250); return num('Ayiring', `${a} − ${b} = ?`, a - b);
+});
+def('frac', '🍕', 'Kasrlar', 'Kasr qo\'shish', () => {
+  const d = 5 + rand(8), a = 1 + rand(3), b = 1 + rand(3), s = a + b;
+  return mc('Qo\'shing', `${a}/${d} + ${b}/${d} = ?`, `${s}/${d}`, `${s}/${2 * d}`, `${s + 1}/${d}`);
+});
+def('dec', '🔟', 'O\'nli kasrlar', 'Qo\'shish', () => {
+  const a = (10 + rand(80)) / 10, b = (10 + rand(80)) / 10, s = +(a + b).toFixed(1), f = x => x.toFixed(1).replace('.', ',');
+  return mc('Qo\'shing', `${f(a)} + ${f(b)} = ?`, f(s), f(s + 0.1), f(s + 1));
+});
+def('pct', '％', 'Foiz', 'Sonning foizini top', () => {
+  const p = [10, 20, 25, 50][rand(4)], base = 20 * (1 + rand(10));
+  return num(`${base} ning ${p}% i nechta?`, `${p}% · ${base}`, base * p / 100);
+});
+def('neg', '🌡️', 'Manfiy sonlar', 'Qo\'shish, ayirish', () => {
+  const a = rand(21) - 10, b = rand(21) - 10, m = rand(2);
+  return num('Hisoblang', `${a} ${m ? '−' : '+'} (${b}) = ?`, m ? a - b : a + b, true);
+});
+def('prop', '🛒', 'Masalalar', 'Proporsiya', () => {
+  const p = 1 + rand(5), u = (1 + rand(5)) * 1000, b = p + 1 + rand(5);
+  return { q: `${p} ta daftar ${p * u} so'm. ${b} ta daftar necha so'm?`, opts: near(b * u / 1000).map(x => x * 1000), answer: b * u };
+});
+def('lin', '🧩', 'Tenglamalar', 'x ni top', () => {
+  const x = 1 + rand(12), a = 2 + rand(8), b = 1 + rand(15);
+  return num('x ni toping', `${a}x + ${b} = ${a * x + b}`, x);
+});
+def('pow', '⚡', 'Darajalar', 'Darajaga ko\'tar', () => {
+  const n = 2 + rand(2), a = 2 + rand(n === 3 ? 4 : 8);
+  return num('Hisoblang', `${a}${SUP[n]} = ?`, a ** n);
+});
+def('sqrt', '√', 'Ildizlar', 'Kvadrat ildiz', () => { const r = 2 + rand(14); return num('Hisoblang', `√${r * r} = ?`, r); });
+def('pyth', '📐', 'Pifagor', 'Gipotenuzani top', () => {
+  const [a, b, c] = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [9, 12, 15], [7, 24, 25]][rand(6)];
+  return num('Gipotenuza c = ?', `a = ${a}, b = ${b}`, c);
+});
+def('sq', '🔲', 'x² = a', 'Ildizlarni top', () => {
+  const r = 2 + rand(12);
+  return mc('Tenglama ildizlari?', `x² = ${r * r}`, `±${r}`, `${r}`, `±${r + 1}`);
+});
+def('quad', '📈', 'Kvadrat tenglama', 'Ildizlar (Viyet)', () => {
+  const a = 1 + rand(8), b = a + 1 + rand(3);
+  return mc('Ildizlari qaysi?', `x² − ${a + b}x + ${a * b} = 0`, `${a} va ${b}`, `${-a} va ${-b}`, `${a} va ${-b}`);
+});
+def('prog', '🪜', 'Progressiya', 'Arifmetik progressiya', () => {
+  const a = 1 + rand(10), d = 2 + rand(4), n = 5 + rand(6);
+  return num('n-hadni toping', `a₁ = ${a}, d = ${d}, a${n} = ?`, a + (n - 1) * d);
+});
+def('log', '🔑', 'Logarifm', 'Logarifmni hisobla', () => {
+  const b = [2, 3, 5, 10][rand(4)], k = 1 + rand(b > 3 ? 3 : 4);
+  return num('Hisoblang', `log${SUB[b]}(${b ** k}) = ?`, k);
+});
+def('deriv', '📉', 'Hosila', 'Hosilani top', () => {
+  const a = 2 + rand(8), n = 2 + rand(4);
+  if (rand(2)) return mc('Hosilani toping', `f(x) = ${px(a, n)}`, px(a * n, n - 1), px(a * n, n), px(a * (n - 1), n - 1));
+  const b = 1 + rand(6);
+  return mc('Hosilani toping', `f(x) = ${px(a, 3)} + ${px(b, 2)}`, `${px(3 * a, 2)} + ${px(2 * b, 1)}`, `${px(a, 2)} + ${px(b, 1)}`, `${px(3 * a, 3)} + ${px(2 * b, 2)}`);
+});
+def('integ', '∫', 'Integral', 'Boshlang\'ich funksiya', () => {
+  const k = 1 + rand(5), n = 1 + rand(4);
+  return mc('Integralni toping', `∫ ${px((n + 1) * k, n)} dx`, `${px(k, n + 1)} + C`, `${px(k, n)} + C`, `${px((n + 1) * k, n + 1)} + C`);
+});
+def('trig', '📏', 'Trigonometriya', 'Qiymatlar jadvali', bank([
+  ['sin 30° = ?', '1/2', '√3/2', '1'], ['cos 60° = ?', '1/2', '√3/2', '0'], ['sin 90° = ?', '1', '0', '1/2'],
+  ['cos 0° = ?', '1', '0', '-1'], ['tg 45° = ?', '1', '0', '√3'], ['sin² α + cos² α = ?', '1', '0', '2α']]));
+def('nat', '🌿', 'Tabiat', 'Tabiatshunoslik', bank([
+  ['Yilda nechta fasl bor?', '4', '3', '5'], ['Qaysi hayvon sut beradi?', 'Sigir', 'Baliq', 'Tovuq'],
+  ['Quyosh nima?', 'Yulduz', 'Sayyora', 'Oy'], ['Hafta necha kun?', '7', '5', '10'],
+  ['Qaysi biri qush?', 'Burgut', 'Delfin', 'Qurbaqa'], ['Suv necha darajada qaynaydi?', '100°', '50°', '0°']]));
+def('geo', '🌍', 'Geografiya', 'Dunyo va tarix', bank([
+  ['O\'zbekiston poytaxti?', 'Toshkent', 'Samarqand', 'Buxoro'], ['Eng katta okean?', 'Tinch okeani', 'Atlantika', 'Hind okeani'],
+  ['Eng baland cho\'qqi?', 'Everest', 'Elbrus', 'Alp'], ['Afrikadagi eng uzun daryo?', 'Nil', 'Amazonka', 'Volga'],
+  ['Al-Xorazmiy qaysi fan asoschisi?', 'Algebra', 'Kimyo', 'Tarix'], ['Mirzo Ulug\'bek nima bilan shug\'ullangan?', 'Astronomiya', 'Tibbiyot', 'Dehqonchilik'],
+  ['Amir Temur tug\'ilgan yil?', '1336', '1405', '1220']]));
+def('fiz', '⚛️', 'Fizika', 'Qonun va birliklar', bank([
+  ['Kuch birligi?', 'Nyuton', 'Joul', 'Vatt'], ['Energiya birligi?', 'Joul', 'Nyuton', 'Paskal'],
+  ['Om qonuni?', 'I = U / R', 'I = U · R', 'I = R / U'], ['Erkin tushish tezlanishi?', '9,8 m/s²', '98 m/s²', '0,98 m/s²'],
+  ['Yorug\'lik tezligi?', '300 000 km/s', '340 m/s', '1000 km/s'], ['Zichlik formulasi?', 'ρ = m / V', 'ρ = m · V', 'ρ = V / m']]));
+def('kim', '🧪', 'Kimyo', 'Element va moddalar', bank([
+  ['Suv formulasi?', 'H₂O', 'CO₂', 'O₂'], ['Osh tuzi formulasi?', 'NaCl', 'KCl', 'NaOH'],
+  ['Kislorod belgisi?', 'O', 'K', 'Ox'], ['pH = 7 qanday muhit?', 'Neytral', 'Kislotali', 'Ishqoriy'],
+  ['Karbonat angidrid?', 'CO₂', 'CO', 'C₂O'], ['Davriy jadval muallifi?', 'Mendeleyev', 'Nyuton', 'Lavuazye'], ['Eng yengil element?', 'Vodorod', 'Geliy', 'Litiy']]));
+def('inf', '💻', 'Informatika', 'Kompyuter savodi', bank([
+  ['1 bayt necha bit?', '8', '4', '16'], ['Ikkilik 101 nechaga teng?', '5', '3', '7'], ['Ikkilik 1000 nechaga teng?', '8', '4', '10'],
+  ['CPU nima?', 'Protsessor', 'Xotira', 'Monitor'], ['HTML nima?', 'Sahifa belgilash tili', 'Operatsion tizim', 'Antivirus']]));
+def('memory', '🧠', 'Xotira', 'Juftlarni top', null);
+ 
+const GRADES = {
+  1: ['letters', 'count', 'add', 'memory', 'nat'],
+  2: ['addsub', 'cmp', 'count', 'memory', 'nat'],
+  3: ['mul', 'div', 'addsub', 'cmp', 'nat'],
+  4: ['mul2', 'big', 'frac', 'nat', 'geo'],
+  5: ['frac', 'dec', 'pct', 'geo', 'inf'],
+  6: ['neg', 'pct', 'prop', 'geo', 'inf'],
+  7: ['lin', 'pow', 'prop', 'fiz', 'geo', 'inf'],
+  8: ['sqrt', 'pyth', 'sq', 'fiz', 'kim', 'inf'],
+  9: ['quad', 'prog', 'pow', 'fiz', 'kim', 'inf'],
+  10: ['log', 'deriv', 'trig', 'fiz', 'kim', 'inf'],
+  11: ['deriv', 'integ', 'log', 'trig', 'fiz', 'kim']
+};
+const COLORS = ['#FF6F61', '#39A0FF', '#2DBE7E', '#8E6CEF', '#F2994A', '#EB5B8C', '#12A5A5', '#5B6CEB'];
+let grade = 1;
+try { grade = +localStorage.getItem('grade') || 1; } catch (e) {}
+ 
+function renderMenu() {
+  $('#grades').innerHTML = '';
+  for (let g = 1; g <= 11; g++) {
+    const b = document.createElement('button');
+    b.className = 'tab' + (g === grade ? ' on' : ''); b.textContent = g + '-sinf';
+    b.onclick = () => { grade = g; try { localStorage.setItem('grade', g); } catch (e) {} renderMenu(); };
+    $('#grades').append(b);
+  }
+  $('#grid').innerHTML = '';
+  GRADES[grade].forEach((id, i) => {
+    const d = G[id], b = document.createElement('button');
+    b.className = 'card'; b.style.background = COLORS[i % COLORS.length];
+    b.innerHTML = `<span class="big">${d.i}</span><b>${d.t}</b><small>${d.s}</small>`;
+    b.onclick = () => start(id);
+    $('#grid').append(b);
+  });
+}
+ 
+/* ---------- O'yin holati ---------- */
+let current = null, qNum = 0, score = 0, locked = false;
+ 
+function start(id) {
+  current = id; qNum = 0; score = 0;
+  show('game');
+  id === 'memory' ? memoryStart() : nextQuestion();
+}
+ 
+function nextQuestion() {
+  if (qNum >= ROUND) return finish(score);
+  const q = G[current].make();
+  locked = false;
+  $('#bar').style.width = (qNum / ROUND * 100) + '%';
+  const vis = q.raw ? `<div class="visual expr">${q.raw}</div>` : q.visual ? `<div class="visual ${q.big ? 'word' : ''}">${q.visual}</div>` : '';
+  $('#stage').innerHTML = `<div class="q">${q.q}</div>${vis}<div class="opts"></div>`;
+  q.opts.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (String(o).length > 9 ? ' long' : ''); b.textContent = o;
+    b.onclick = () => answer(b, o, q.answer);
+    $('#stage .opts').append(b);
+  });
+}
+ 
+function answer(btn, val, correct) {
+  if (locked) return;
+  if (String(val) === String(correct)) {
+    locked = true; btn.classList.add('ok');
+    document.querySelectorAll('.opt').forEach(b => b.disabled = true);
+    good(); score++; addStar(); qNum++;
+    setTimeout(nextQuestion, 1000);
+  } else {
+    btn.classList.remove('bad'); void btn.offsetWidth; btn.classList.add('bad');
+    bad();
+  }
+}
+ 
+/* ---------- Xotira o'yini ---------- */
+function memoryStart() {
+  const icons = shuffle(['🐱', '🐶', '🐰', '🦁', '🐸', '🐼']).slice(0, 4);
+  const deck = shuffle([...icons, ...icons]);
+  let open = [], found = 0, moves = 0;
+  $('#bar').style.width = '0%';
+  $('#stage').innerHTML = `<div class="q">Bir xil hayvonlarni top!</div><div class="mem">${
+    deck.map((d, i) => `<button class="tile" data-i="${i}">❓</button>`).join('')}</div>`;
+  const tiles = [...document.querySelectorAll('.tile')];
+  tiles.forEach(t => t.onclick = () => {
+    if (open.length === 2 || t.classList.contains('up') || t.classList.contains('done')) return;
+    t.classList.add('up'); t.textContent = deck[t.dataset.i]; open.push(t); beep([440]);
+    if (open.length < 2) return;
+    moves++;
+    const [a, b] = open;
+    if (a.textContent === b.textContent) {
+      a.classList.add('done'); b.classList.add('done'); a.classList.remove('up'); b.classList.remove('up');
+      open = []; found++; good(); addStar();
+      $('#bar').style.width = (found / 4 * 100) + '%';
+      if (found === 4) setTimeout(() => finish(moves <= 6 ? 5 : moves <= 9 ? 4 : 3), 1000);
+    } else {
+      bad();
+      setTimeout(() => { open.forEach(x => { x.classList.remove('up'); x.textContent = '❓'; }); open = []; }, 800);
+    }
+  });
+}
+ 
+/* ---------- Natija ---------- */
+function finish(s) {
+  $('#bar').style.width = '100%';
+  const msgs = ['Yana urinib ko\'ramiz!', 'Yaxshi!', 'Zo\'r!', 'Barakalla!', 'Ajoyib!', 'Chempionsan!'];
+  $('#resTitle').textContent = msgs[Math.min(s, 5)];
+  $('#resStars').textContent = '⭐'.repeat(Math.max(1, Math.min(s, 5)));
+  show('result'); beep([523, 659, 784, 1046]);
+}
+ 
+/* ---------- Tugmalar ---------- */
+$('#againBtn').onclick = () => start(current);
+$('#menuBtn').onclick = $('#homeBtn').onclick = () => show('menu');
+renderMenu(); showStars(); show('menu');
+ 
+</script>
+</body>
+</html>
+ 
