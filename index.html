@@ -183,7 +183,7 @@ function show(id) {
 const WORDS = [
   ['🍎', 'Olma', 'O'], ['🐟', 'Baliq', 'B'], ['🐱', 'Mushuk', 'M'], ['🌞', 'Quyosh', 'Q'],
   ['🐘', 'Fil', 'F'], ['🌳', 'Daraxt', 'D'], ['🦁', 'Sher', 'S'], ['🌸', 'Gul', 'G'],
-  ['📖', 'Kitob', 'K'], ['🍞', 'Non', 'N'], ['🐰', 'Quyon', 'Q'], ['🚗', 'Avto', 'A']
+  ['📖', 'Kitob', 'K'], ['🍞', 'Non', 'N'], ['🐰', 'Quyon', 'Q'], ['🚗', 'Avto', 'A'], ['🍉', 'Tarvuz', 'T'], ['🐝', 'Asalari', 'A'], ['🥕', 'Sabzi', 'S'], ['🍅', 'Pomidor', 'P'], ['🐦', 'Qush', 'Q'], ['⚽', 'To\'p', 'T'], ['🍇', 'Uzum', 'U'], ['🌙', 'Oy', 'O'], ['🐺', 'Bo\'ri', 'B'], ['🚌', 'Avtobus', 'A'], ['🥛', 'Sut', 'S'], ['🐑', 'Qo\'y', 'Q']
 ];
 const ANIMALS = ['🍎', '⭐', '🐟', '🎈', '🐥', '🍓', '🚗', '🌸'];
  
@@ -199,12 +199,76 @@ const mc = (q, raw, ans, ...wrong) => ({ q, raw, opts: shuffle([ans, ...wrong]),
 const num = (q, raw, ans, neg) => ({ q, raw, opts: near(ans, neg), answer: ans });
 const bank = list => { let st = []; return () => { if (!st.length) st = shuffle(list.slice()); const [t, c, ...w] = st.pop(); return mc(t, '', c, ...w); }; };
  
+ 
+const MORE = {
+  nat: [
+    ['Qaysi fasl eng sovuq?','Qish','Yoz','Bahor'],['Qaysi hayvon uchadi?','Qaldirg\'och','Sigir','Baliq'],
+    ['Baliq qayerda yashaydi?','Suvda','Daraxtda','Yerda'],['Tuxumni kim qo\'yadi?','Tovuq','Sigir','Ot'],
+    ['O\'simlik nimasiz o\'smaydi?','Suvsiz','Kitobsiz','Qalamsiz'],['Oy nima?','Yerning yo\'ldoshi','Yulduz','Sayyora'],
+    ['Yomg\'irdan keyin osmonda nima paydo bo\'ladi?','Kamalak','Qor','Shamol'],['Qaysi meva sariq rangda?','Limon','Qulupnay','Pomidor'],
+    ['Bir soatda necha daqiqa bor?','60','30','100'],['Quyon nima yeydi?','Sabzi','Go\'sht','Baliq'],
+    ['Ari nima beradi?','Asal','Sut','Tuz'],['Qaysi fasl issiq?','Yoz','Qish','Kuz'],
+    ['Qor qaysi faslda yog\'adi?','Qishda','Yozda','Kuzda'],['Tishni nima bilan tozalaymiz?','Tish cho\'tkasi','Taroq','Qaychi'],
+    ['Kuzda daraxt barglari nima bo\'ladi?','Sarg\'ayadi','Ko\'payadi','Muzlaydi'],['Yer qanday shaklda?','Shar','Kvadrat','Uchburchak'],
+    ['Odamning nechta ko\'zi bor?','2','1','3'],['Qaysi hayvon yovvoyi?','Bo\'ri','Sigir','Mushuk'],
+    ['Suv necha darajada muzlaydi?','0°','100°','50°'],['Yilda nechta oy bor?','12','10','7']
+  ],
+  geo: [
+    ['O\'zbekistonda nechta viloyat bor?','12','14','10'],['Eng katta materik?','Yevroosiyo','Afrika','Avstraliya'],
+    ['Eng kichik materik?','Avstraliya','Yevropa','Antarktida'],['Eng katta issiq cho\'l?','Sahroi Kabir','Qizilqum','Gobi'],
+    ['Rossiya poytaxti?','Moskva','Peterburg','Kiyev'],['Yaponiya poytaxti?','Tokio','Pekin','Seul'],
+    ['Fransiya poytaxti?','Parij','Rim','Madrid'],['Qozog\'iston poytaxti?','Astana','Olmaota','Bishkek'],
+    ['Eng chuqur ko\'l?','Baykal','Orol','Issiqko\'l'],['Yer Quyosh atrofini necha kunda aylanadi?','365','30','12'],
+    ['Ulug\'bek rasadxonasi qayerda?','Samarqand','Buxoro','Xiva'],['Registon maydoni qayerda?','Samarqand','Toshkent','Qo\'qon'],
+    ['Ibn Sino qaysi sohada mashhur?','Tibbiyot','Arxitektura','Harbiy ish'],['O\'zbekiston mustaqillik yili?','1991','1985','2000'],
+    ['Mustaqillik kuni qachon?','1 sentabr','9 may','21 mart'],['Navro\'z bayrami qachon?','21 mart','1 yanvar','1 sentabr'],
+    ['Alisher Navoiyning mashhur asari?','Xamsa','Shohnoma','Boburnoma'],['Boburnoma muallifi?','Zahiriddin Bobur','Navoiy','Amir Temur'],
+    ['Ikkinchi jahon urushi qachon boshlangan?','1939','1914','1945'],['Maydoni bo\'yicha eng katta davlat?','Rossiya','Xitoy','AQSh'],
+    ['Everest qaysi tog\' tizimida?','Himolay','Alp','Kavkaz'],['Qoraqalpog\'iston poytaxti?','Nukus','Urganch','Termiz']
+  ],
+  fiz: [
+    ['Quvvat birligi?','Vatt','Joul','Nyuton'],['Bosim birligi?','Paskal','Nyuton','Amper'],['Tok kuchi birligi?','Amper','Volt','Om'],
+    ['Kuchlanish birligi?','Volt','Amper','Om'],['Qarshilik birligi?','Om','Volt','Vatt'],['Chastota birligi?','Gers','Vatt','Kelvin'],
+    ['Tezlik formulasi?','v = s / t','v = s · t','v = t / s'],['Nyutonning II qonuni?','F = m · a','F = m / a','F = a / m'],
+    ['Kinetik energiya?','E = mv² / 2','E = mv','E = m²v / 2'],['Mexanik ish formulasi?','A = F · s','A = F / s','A = s / F'],
+    ['Bosim formulasi?','p = F / S','p = F · S','p = S / F'],['Og\'irlik kuchi?','F = m · g','F = m / g','F = g / m'],
+    ['Absolyut nol harorat?','−273 °C','0 °C','−100 °C'],['Tovush vakuumda tarqaladimi?','Yo\'q','Ha','Faqat kechasi'],
+    ['Massaning SI birligi?','Kilogramm','Gramm','Nyuton'],['Elektr zaryadi birligi?','Kulon','Amper','Volt'],
+    ['Butun olam tortishish qonunini kim topgan?','Nyuton','Eynshteyn','Galiley'],['Nisbiylik nazariyasi muallifi?','Eynshteyn','Nyuton','Bor'],
+    ['Tovush havoda qanday tezlikda?','340 m/s','3 m/s','300 000 km/s'],['Arximed kuchi nimaga teng?','Siqib chiqarilgan suyuqlik og\'irligiga','Jism massasiga','Jism rangiga']
+  ],
+  kim: [
+    ['Vodorod belgisi?','H','V','Hy'],['Natriy belgisi?','Na','N','Nt'],['Kaliy belgisi?','K','Ka','P'],['Temir belgisi?','Fe','Te','Ir'],
+    ['Oltin belgisi?','Au','Ag','Go'],['Kumush belgisi?','Ag','Au','Si'],['Mis belgisi?','Cu','Mi','Co'],['Azot belgisi?','N','Az','A'],
+    ['Ammiak formulasi?','NH₃','N₂H','NO₂'],['Metan formulasi?','CH₄','C₂H₆','CO₂'],['Sulfat kislota?','H₂SO₄','HCl','HNO₃'],
+    ['Xlorid kislota?','HCl','H₂SO₄','NaCl'],['Havoning asosiy qismi?','Azot','Kislorod','Karbonat angidrid'],
+    ['Atom yadrosida nima bor?','Proton va neytron','Proton va elektron','Faqat elektron'],['Elektron zaryadi?','Manfiy','Musbat','Neytral'],
+    ['Kislorodning tartib raqami?','8','6','16'],['Uglerodning tartib raqami?','6','8','12'],
+    ['Suv nechta elementdan iborat?','2 ta','1 ta','3 ta'],['Yonish uchun nima kerak?','Kislorod','Azot','Argon'],['Toza suvning pH qiymati?','7','1','14']
+  ],
+  inf: [
+    ['1 KB necha bayt?','1024','1000','100'],['Ikkilik 11 nechaga teng?','3','2','11'],['Ikkilik 110 nechaga teng?','6','5','7'],
+    ['Ikkilik sanoqda qaysi raqamlar bor?','0 va 1','0 dan 9 gacha','1 va 2'],['Kompyuterning "miyasi"?','Protsessor','Sichqoncha','Klaviatura'],
+    ['RAM nima?','Operativ xotira','Sichqoncha','Printer'],['Qaysi biri kiritish qurilmasi?','Klaviatura','Monitor','Printer'],
+    ['Qaysi biri chiqarish qurilmasi?','Monitor','Sichqoncha','Skaner'],['.txt qanday fayl?','Matn fayli','Rasm','Musiqa'],
+    ['.jpg qanday fayl?','Rasm','Matn','Video'],['Qaysi biri brauzer?','Chrome','Word','Excel'],
+    ['Word nima uchun?','Matn yozish','Jadval hisoblash','Video tahrirlash'],['Excel nima uchun?','Jadval va hisoblash','Matn yozish','Musiqa eshitish'],
+    ['Algoritm nima?','Amallar ketma-ketligi','Kompyuter turi','Dastur nomi'],['Python nima?','Dasturlash tili','Brauzer','Virus'],
+    ['CSS nima uchun?','Sahifa dizayni','Ma\'lumotlar bazasi','Tarmoq'],['IP-manzil nima?','Qurilmaning tarmoqdagi manzili','Parol','Fayl nomi'],
+    ['Kompyuter virusi nima?','Zararli dastur','Foydali dastur','Antivirus'],['Yaxshi parol qanday?','Uzun va murakkab','123456','Ismingiz']
+  ],
+  trig: [
+    ['cos 90° = ?','0','1','1/2'],['sin 0° = ?','0','1','1/2'],['cos 30° = ?','√3/2','1/2','√2/2'],['sin 45° = ?','√2/2','1/2','√3/2'],
+    ['tg 30° = ?','1/√3','√3','1'],['sin 60° = ?','√3/2','1/2','√2/2'],['cos 180° = ?','−1','0','1'],['sin 180° = ?','0','1','−1']
+  ]
+};
+ 
 const G = {};
 const def = (id, i, t, s, make) => G[id] = { i, t, s, make };
  
 def('letters', '🍎', 'Harflar', 'Birinchi harfni top', () => {
   const [e, w, l] = WORDS[rand(WORDS.length)];
-  const rest = 'ABDFGKMNOQSUX'.split('').filter(c => c !== l);
+  const rest = 'ABDFGKMNOPQSTUX'.split('').filter(c => c !== l);
   return { q: 'Bu so\'z qaysi harfdan boshlanadi?', visual: `${e}<span class="label">${w}</span>`, big: 1, opts: shuffle([l, ...shuffle(rest).slice(0, 2)]), answer: l };
 });
 def('count', '🔢', 'Sanaymiz', 'Nechta ekanini top', () => {
@@ -212,12 +276,23 @@ def('count', '🔢', 'Sanaymiz', 'Nechta ekanini top', () => {
   return { q: 'Nechta bor?', visual: e.repeat(n), opts: near(n), answer: n };
 });
 def('add', '➕', 'Qo\'shamiz', 'Rasmli misollar', () => {
-  const a = 1 + rand(5), b = 1 + rand(5), e = ANIMALS[rand(ANIMALS.length)];
+  const a = 1 + rand(9), b = 1 + rand(9), e = ANIMALS[rand(ANIMALS.length)];
   return { q: `${a} + ${b} = ?`, visual: `${e.repeat(a)} ➕ ${e.repeat(b)}`, opts: near(a + b), answer: a + b };
 });
+def('oe', '🔀', 'Juft-toq', 'Juftmi, toqmi?', () => {
+  const n = 1 + rand(30);
+  return { q: `${n} soni qanday son?`, opts: shuffle(['Juft', 'Toq']), answer: n % 2 === 0 ? 'Juft' : 'Toq' };
+});
+def('add2', '🧱', "O'nlikdan o'tib", "Qo'shish, ayirish", () => {
+  if (rand(2)) { const a = 3 + rand(15), b = 3 + rand(20 - a > 3 ? 20 - a : 15); return num("Qo'shing", `${a} + ${b} = ?`, a + b); }
+  const a = 11 + rand(19), b = 2 + rand(a - 2); return num('Ayiring', `${a} − ${b} = ?`, a - b);
+});
 def('addsub', '🧮', '100 ichida', 'Qo\'shish, ayirish', () => {
-  if (rand(2)) { const a = 10 + rand(80), b = 1 + rand(100 - a); return num('Qo\'shing', `${a} + ${b} = ?`, a + b); }
-  const a = 20 + rand(80), b = 1 + rand(a - 1); return num('Ayiring', `${a} − ${b} = ?`, a - b);
+  const r = rand(3);
+  if (r === 0) { const a = 10 + rand(80), b = 1 + rand(100 - a); return num('Qo\'shing', `${a} + ${b} = ?`, a + b); }
+  if (r === 1) { const a = 20 + rand(80), b = 1 + rand(a - 1); return num('Ayiring', `${a} − ${b} = ?`, a - b); }
+  const a = 5 + rand(30), b = 3 + rand(15), c = 2 + rand(15);
+  return num("Ketma-ket hisoblang", `${a} + ${b} − ${c} = ?`, a + b - c);
 });
 def('cmp', '⚖️', 'Taqqoslash', '>, < yoki =', () => {
   const a = 10 + rand(90), b = rand(4) ? 10 + rand(90) : a;
@@ -225,13 +300,18 @@ def('cmp', '⚖️', 'Taqqoslash', '>, < yoki =', () => {
 });
 def('mul', '✖️', 'Ko\'paytirish', 'Jadvalni bil', () => { const a = 2 + rand(8), b = 2 + rand(8); return num('Ko\'paytiring', `${a} × ${b} = ?`, a * b); });
 def('div', '➗', 'Bo\'lish', 'Teng bo\'l', () => { const b = 2 + rand(8), r = 2 + rand(8); return num('Bo\'ling', `${b * r} ÷ ${b} = ?`, r); });
+def('mstep', '🧩', "Ko'p qadamli", "Amallar tartibi", () => {
+  const a = 2 + rand(8), b = 2 + rand(8), c = 1 + rand(10);
+  if (rand(2)) return num('Hisoblang', `${a} × ${b} + ${c} = ?`, a * b + c);
+  return num('Hisoblang', `${a} × ${b} − ${c} = ?`, a * b - c, true);
+});
 def('mul2', '✖️', 'Katta sonlar', 'Ko\'paytirish, bo\'lish', () => {
-  if (rand(2)) { const a = 11 + rand(15), b = 2 + rand(8); return num('Ko\'paytiring', `${a} × ${b} = ?`, a * b); }
-  const b = 2 + rand(8), r = 11 + rand(20); return num('Bo\'ling', `${b * r} ÷ ${b} = ?`, r);
+  if (rand(2)) { const a = 11 + rand(30), b = 2 + rand(9); return num('Ko\'paytiring', `${a} × ${b} = ?`, a * b); }
+  const b = 2 + rand(9), r = 11 + rand(30); return num('Bo\'ling', `${b * r} ÷ ${b} = ?`, r);
 });
 def('big', '💯', '1000 ichida', 'Qo\'shish, ayirish', () => {
-  if (rand(2)) { const a = 100 + rand(500), b = 50 + rand(400); return num('Qo\'shing', `${a} + ${b} = ?`, a + b); }
-  const a = 300 + rand(600), b = 50 + rand(250); return num('Ayiring', `${a} − ${b} = ?`, a - b);
+  if (rand(2)) { const a = 100 + rand(800), b = 50 + rand(900 - a > 50 ? Math.min(900 - a, 800) : 400); return num('Qo\'shing', `${a} + ${b} = ?`, a + b); }
+  const a = 300 + rand(690), b = 50 + rand(a - 50); return num('Ayiring', `${a} − ${b} = ?`, a - b);
 });
 def('frac', '🍕', 'Kasrlar', 'Kasr qo\'shish', () => {
   const d = 5 + rand(8), a = 1 + rand(3), b = 1 + rand(3), s = a + b;
@@ -242,12 +322,18 @@ def('dec', '🔟', 'O\'nli kasrlar', 'Qo\'shish', () => {
   return mc('Qo\'shing', `${f(a)} + ${f(b)} = ?`, f(s), f(s + 0.1), f(s + 1));
 });
 def('pct', '％', 'Foiz', 'Sonning foizini top', () => {
-  const p = [10, 20, 25, 50][rand(4)], base = 20 * (1 + rand(10));
+  const p = [5, 10, 15, 20, 25, 30, 40, 50, 75][rand(9)], base = 4 * (1 + rand(50));
   return num(`${base} ning ${p}% i nechta?`, `${p}% · ${base}`, base * p / 100);
 });
-def('neg', '🌡️', 'Manfiy sonlar', 'Qo\'shish, ayirish', () => {
-  const a = rand(21) - 10, b = rand(21) - 10, m = rand(2);
-  return num('Hisoblang', `${a} ${m ? '−' : '+'} (${b}) = ?`, m ? a - b : a + b, true);
+def('neg', '🌡️', 'Manfiy sonlar', 'Qo\'shish, ayirish, ko\'paytirish', () => {
+  const a = rand(41) - 20, b = rand(41) - 20, r = rand(3);
+  if (r === 0) return num('Hisoblang', `${a} + (${b}) = ?`, a + b, true);
+  if (r === 1) return num('Hisoblang', `${a} − (${b}) = ?`, a - b, true);
+  const x = rand(13) - 6, y = rand(13) - 6; return num('Hisoblang', `(${x}) × (${y}) = ?`, x * y, true);
+});
+def('prop4', '📦', 'Masalalar', "Ko'p qadamli masala", () => {
+  const price = (1 + rand(9)) * 1000, qty = 2 + rand(8), paid = price * qty + (1 + rand(5)) * 1000;
+  return num("Necha ta buyum uchun to'lagan, qolgan pulini toping", `${qty} ta buyum ${price} so'mdan, ${paid} so'm bilan to'lagan. Qaytim?`, paid - price * qty);
 });
 def('prop', '🛒', 'Masalalar', 'Proporsiya', () => {
   const p = 1 + rand(5), u = (1 + rand(5)) * 1000, b = p + 1 + rand(5);
@@ -258,20 +344,22 @@ def('lin', '🧩', 'Tenglamalar', 'x ni top', () => {
   return num('x ni toping', `${a}x + ${b} = ${a * x + b}`, x);
 });
 def('pow', '⚡', 'Darajalar', 'Darajaga ko\'tar', () => {
-  const n = 2 + rand(2), a = 2 + rand(n === 3 ? 4 : 8);
+  const n = 2 + rand(2), a = 2 + rand(n === 3 ? 10 : 16);
   return num('Hisoblang', `${a}${SUP[n]} = ?`, a ** n);
 });
-def('sqrt', '√', 'Ildizlar', 'Kvadrat ildiz', () => { const r = 2 + rand(14); return num('Hisoblang', `√${r * r} = ?`, r); });
+def('sqrt', '√', 'Ildizlar', 'Kvadrat ildiz', () => { const r = 2 + rand(23); return num('Hisoblang', `√${r * r} = ?`, r); });
 def('pyth', '📐', 'Pifagor', 'Gipotenuzani top', () => {
-  const [a, b, c] = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [9, 12, 15], [7, 24, 25]][rand(6)];
+  const T = [[3, 4, 5], [5, 12, 13], [6, 8, 10], [8, 15, 17], [9, 12, 15], [7, 24, 25],
+             [10, 24, 26], [20, 21, 29], [18, 24, 30], [9, 40, 41], [12, 16, 20], [15, 20, 25]];
+  const [a, b, c] = T[rand(T.length)];
   return num('Gipotenuza c = ?', `a = ${a}, b = ${b}`, c);
 });
 def('sq', '🔲', 'x² = a', 'Ildizlarni top', () => {
-  const r = 2 + rand(12);
+  const r = 2 + rand(20);
   return mc('Tenglama ildizlari?', `x² = ${r * r}`, `±${r}`, `${r}`, `±${r + 1}`);
 });
 def('quad', '📈', 'Kvadrat tenglama', 'Ildizlar (Viyet)', () => {
-  const a = 1 + rand(8), b = a + 1 + rand(3);
+  const a = 1 + rand(12), b = a + 1 + rand(9);
   return mc('Ildizlari qaysi?', `x² − ${a + b}x + ${a * b} = 0`, `${a} va ${b}`, `${-a} va ${-b}`, `${a} va ${-b}`);
 });
 def('prog', '🪜', 'Progressiya', 'Arifmetik progressiya', () => {
@@ -279,49 +367,52 @@ def('prog', '🪜', 'Progressiya', 'Arifmetik progressiya', () => {
   return num('n-hadni toping', `a₁ = ${a}, d = ${d}, a${n} = ?`, a + (n - 1) * d);
 });
 def('log', '🔑', 'Logarifm', 'Logarifmni hisobla', () => {
-  const b = [2, 3, 5, 10][rand(4)], k = 1 + rand(b > 3 ? 3 : 4);
+  const opts = [[2, 6], [3, 4], [5, 3], [10, 3]];
+  const [b, kmax] = opts[rand(opts.length)], k = 1 + rand(kmax);
   return num('Hisoblang', `log${SUB[b]}(${b ** k}) = ?`, k);
 });
 def('deriv', '📉', 'Hosila', 'Hosilani top', () => {
-  const a = 2 + rand(8), n = 2 + rand(4);
+  const a = 2 + rand(14), n = 2 + rand(4);
   if (rand(2)) return mc('Hosilani toping', `f(x) = ${px(a, n)}`, px(a * n, n - 1), px(a * n, n), px(a * (n - 1), n - 1));
   const b = 1 + rand(6);
   return mc('Hosilani toping', `f(x) = ${px(a, 3)} + ${px(b, 2)}`, `${px(3 * a, 2)} + ${px(2 * b, 1)}`, `${px(a, 2)} + ${px(b, 1)}`, `${px(3 * a, 3)} + ${px(2 * b, 2)}`);
 });
 def('integ', '∫', 'Integral', 'Boshlang\'ich funksiya', () => {
-  const k = 1 + rand(5), n = 1 + rand(4);
+  const k = 1 + rand(10), n = 1 + rand(4);
   return mc('Integralni toping', `∫ ${px((n + 1) * k, n)} dx`, `${px(k, n + 1)} + C`, `${px(k, n)} + C`, `${px((n + 1) * k, n + 1)} + C`);
 });
-def('trig', '📏', 'Trigonometriya', 'Qiymatlar jadvali', bank([
+def('trig', '📏', 'Trigonometriya', 'Qiymatlar jadvali', bank(MORE.trig.concat([
   ['sin 30° = ?', '1/2', '√3/2', '1'], ['cos 60° = ?', '1/2', '√3/2', '0'], ['sin 90° = ?', '1', '0', '1/2'],
-  ['cos 0° = ?', '1', '0', '-1'], ['tg 45° = ?', '1', '0', '√3'], ['sin² α + cos² α = ?', '1', '0', '2α']]));
-def('nat', '🌿', 'Tabiat', 'Tabiatshunoslik', bank([
+  ['cos 0° = ?', '1', '0', '-1'], ['tg 45° = ?', '1', '0', '√3'], ['sin² α + cos² α = ?', '1', '0', '2α'],
+  ['tg 0° = ?', '0', '1', 'aniqlanmagan'], ['tg 60° = ?', '√3', '1/√3', '1'], ['cos 45° = ?', '√2/2', '1/2', '1'],
+  ['sin 270° = ?', '−1', '0', '1'], ['cos 270° = ?', '0', '1', '−1'], ['sin(−30°) = ?', '−1/2', '1/2', '0']])));
+def('nat', '🌿', 'Tabiat', 'Tabiatshunoslik', bank(MORE.nat.concat([
   ['Yilda nechta fasl bor?', '4', '3', '5'], ['Qaysi hayvon sut beradi?', 'Sigir', 'Baliq', 'Tovuq'],
   ['Quyosh nima?', 'Yulduz', 'Sayyora', 'Oy'], ['Hafta necha kun?', '7', '5', '10'],
-  ['Qaysi biri qush?', 'Burgut', 'Delfin', 'Qurbaqa'], ['Suv necha darajada qaynaydi?', '100°', '50°', '0°']]));
-def('geo', '🌍', 'Geografiya', 'Dunyo va tarix', bank([
+  ['Qaysi biri qush?', 'Burgut', 'Delfin', 'Qurbaqa'], ['Suv necha darajada qaynaydi?', '100°', '50°', '0°']])));
+def('geo', '🌍', 'Geografiya', 'Dunyo va tarix', bank(MORE.geo.concat([
   ['O\'zbekiston poytaxti?', 'Toshkent', 'Samarqand', 'Buxoro'], ['Eng katta okean?', 'Tinch okeani', 'Atlantika', 'Hind okeani'],
   ['Eng baland cho\'qqi?', 'Everest', 'Elbrus', 'Alp'], ['Afrikadagi eng uzun daryo?', 'Nil', 'Amazonka', 'Volga'],
   ['Al-Xorazmiy qaysi fan asoschisi?', 'Algebra', 'Kimyo', 'Tarix'], ['Mirzo Ulug\'bek nima bilan shug\'ullangan?', 'Astronomiya', 'Tibbiyot', 'Dehqonchilik'],
-  ['Amir Temur tug\'ilgan yil?', '1336', '1405', '1220']]));
-def('fiz', '⚛️', 'Fizika', 'Qonun va birliklar', bank([
+  ['Amir Temur tug\'ilgan yil?', '1336', '1405', '1220']])));
+def('fiz', '⚛️', 'Fizika', 'Qonun va birliklar', bank(MORE.fiz.concat([
   ['Kuch birligi?', 'Nyuton', 'Joul', 'Vatt'], ['Energiya birligi?', 'Joul', 'Nyuton', 'Paskal'],
   ['Om qonuni?', 'I = U / R', 'I = U · R', 'I = R / U'], ['Erkin tushish tezlanishi?', '9,8 m/s²', '98 m/s²', '0,98 m/s²'],
-  ['Yorug\'lik tezligi?', '300 000 km/s', '340 m/s', '1000 km/s'], ['Zichlik formulasi?', 'ρ = m / V', 'ρ = m · V', 'ρ = V / m']]));
-def('kim', '🧪', 'Kimyo', 'Element va moddalar', bank([
+  ['Yorug\'lik tezligi?', '300 000 km/s', '340 m/s', '1000 km/s'], ['Zichlik formulasi?', 'ρ = m / V', 'ρ = m · V', 'ρ = V / m']])));
+def('kim', '🧪', 'Kimyo', 'Element va moddalar', bank(MORE.kim.concat([
   ['Suv formulasi?', 'H₂O', 'CO₂', 'O₂'], ['Osh tuzi formulasi?', 'NaCl', 'KCl', 'NaOH'],
   ['Kislorod belgisi?', 'O', 'K', 'Ox'], ['pH = 7 qanday muhit?', 'Neytral', 'Kislotali', 'Ishqoriy'],
-  ['Karbonat angidrid?', 'CO₂', 'CO', 'C₂O'], ['Davriy jadval muallifi?', 'Mendeleyev', 'Nyuton', 'Lavuazye'], ['Eng yengil element?', 'Vodorod', 'Geliy', 'Litiy']]));
-def('inf', '💻', 'Informatika', 'Kompyuter savodi', bank([
+  ['Karbonat angidrid?', 'CO₂', 'CO', 'C₂O'], ['Davriy jadval muallifi?', 'Mendeleyev', 'Nyuton', 'Lavuazye'], ['Eng yengil element?', 'Vodorod', 'Geliy', 'Litiy']])));
+def('inf', '💻', 'Informatika', 'Kompyuter savodi', bank(MORE.inf.concat([
   ['1 bayt necha bit?', '8', '4', '16'], ['Ikkilik 101 nechaga teng?', '5', '3', '7'], ['Ikkilik 1000 nechaga teng?', '8', '4', '10'],
-  ['CPU nima?', 'Protsessor', 'Xotira', 'Monitor'], ['HTML nima?', 'Sahifa belgilash tili', 'Operatsion tizim', 'Antivirus']]));
+  ['CPU nima?', 'Protsessor', 'Xotira', 'Monitor'], ['HTML nima?', 'Sahifa belgilash tili', 'Operatsion tizim', 'Antivirus']])));
 def('memory', '🧠', 'Xotira', 'Juftlarni top', null);
  
 const GRADES = {
-  1: ['letters', 'count', 'add', 'memory', 'nat'],
-  2: ['addsub', 'cmp', 'count', 'memory', 'nat'],
-  3: ['mul', 'div', 'addsub', 'cmp', 'nat'],
-  4: ['mul2', 'big', 'frac', 'nat', 'geo'],
+  1: ['letters', 'count', 'add', 'oe', 'memory', 'nat'],
+  2: ['add2', 'addsub', 'cmp', 'oe', 'memory', 'nat'],
+  3: ['mul', 'div', 'addsub', 'cmp', 'mstep', 'nat'],
+  4: ['mul2', 'big', 'frac', 'prop4', 'geo', 'nat'],
   5: ['frac', 'dec', 'pct', 'geo', 'inf'],
   6: ['neg', 'pct', 'prop', 'geo', 'inf'],
   7: ['lin', 'pow', 'prop', 'fiz', 'geo', 'inf'],
@@ -353,17 +444,25 @@ function renderMenu() {
 }
  
 /* ---------- O'yin holati ---------- */
-let current = null, qNum = 0, score = 0, locked = false;
+let current = null, qNum = 0, score = 0, locked = false, usedKeys = [];
  
 function start(id) {
-  current = id; qNum = 0; score = 0;
+  current = id; qNum = 0; score = 0; usedKeys = [];
   show('game');
   id === 'memory' ? memoryStart() : nextQuestion();
 }
  
+function makeUnique() {
+  let q, key, tries = 0;
+  do { q = G[current].make(); key = q.q + '|' + (q.raw || q.visual || ''); tries++; }
+  while (usedKeys.includes(key) && tries < 40);
+  usedKeys.push(key);
+  return q;
+}
+ 
 function nextQuestion() {
   if (qNum >= ROUND) return finish(score);
-  const q = G[current].make();
+  const q = makeUnique();
   locked = false;
   $('#bar').style.width = (qNum / ROUND * 100) + '%';
   const vis = q.raw ? `<div class="visual expr">${q.raw}</div>` : q.visual ? `<div class="visual ${q.big ? 'word' : ''}">${q.visual}</div>` : '';
@@ -433,4 +532,3 @@ renderMenu(); showStars(); show('menu');
 </script>
 </body>
 </html>
- 
