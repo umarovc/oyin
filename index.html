@@ -105,6 +105,11 @@ main{max-width:900px;margin:auto;padding:8px 18px 40px}
 .q{line-height:1.2}
 @media (max-width:420px){.big{font-size:3rem}.top{padding:10px 12px}main{padding:6px 12px 30px}.tab{font-size:1rem;padding:5px 12px}}
  
+.resScore{display:flex;justify-content:center;gap:22px;font-size:1.3rem;font-weight:800;margin-bottom:18px;flex-wrap:wrap}
+.ok-count{color:#1a935c}
+.bad-count{color:#c9483c}
+.opt.ok{background:var(--leaf)!important;box-shadow:0 7px 0 #1a935c!important}
+ 
 </style>
 </head>
 <body>
@@ -130,6 +135,7 @@ main{max-width:900px;margin:auto;padding:8px 18px 40px}
     <div class="big trophy">🏆</div>
     <h2 id="resTitle"></h2>
     <div id="resStars" class="resStars"></div>
+    <div id="resScore" class="resScore"></div>
     <div class="row">
       <button class="btn" id="againBtn">Yana o'ynash</button>
       <button class="btn alt" id="menuBtn">Menyu</button>
@@ -444,10 +450,10 @@ function renderMenu() {
 }
  
 /* ---------- O'yin holati ---------- */
-let current = null, qNum = 0, score = 0, locked = false, usedKeys = [];
+let current = null, qNum = 0, score = 0, wrong = 0, locked = false, usedKeys = [];
  
 function start(id) {
-  current = id; qNum = 0; score = 0; usedKeys = [];
+  current = id; qNum = 0; score = 0; wrong = 0; usedKeys = [];
   show('game');
   id === 'memory' ? memoryStart() : nextQuestion();
 }
@@ -469,7 +475,7 @@ function nextQuestion() {
   $('#stage').innerHTML = `<div class="q">${q.q}</div>${vis}<div class="opts"></div>`;
   q.opts.forEach(o => {
     const b = document.createElement('button');
-    b.className = 'opt' + (String(o).length > 9 ? ' long' : ''); b.textContent = o;
+    b.className = 'opt' + (String(o).length > 9 ? ' long' : ''); b.textContent = o; b.dataset.v = o;
     b.onclick = () => answer(b, o, q.answer);
     $('#stage .opts').append(b);
   });
@@ -477,15 +483,18 @@ function nextQuestion() {
  
 function answer(btn, val, correct) {
   if (locked) return;
+  locked = true;
+  document.querySelectorAll('.opt').forEach(b => b.disabled = true);
+  qNum++;
   if (String(val) === String(correct)) {
-    locked = true; btn.classList.add('ok');
-    document.querySelectorAll('.opt').forEach(b => b.disabled = true);
-    good(); score++; addStar(); qNum++;
-    setTimeout(nextQuestion, 1000);
+    btn.classList.add('ok');
+    good(); score++; addStar();
   } else {
-    btn.classList.remove('bad'); void btn.offsetWidth; btn.classList.add('bad');
+    btn.classList.add('bad'); wrong++;
+    document.querySelectorAll('.opt').forEach(b => { if (String(b.dataset.v ?? b.textContent) === String(correct)) b.classList.add('ok'); });
     bad();
   }
+  setTimeout(nextQuestion, 1100);
 }
  
 /* ---------- Xotira o'yini ---------- */
@@ -507,7 +516,7 @@ function memoryStart() {
       a.classList.add('done'); b.classList.add('done'); a.classList.remove('up'); b.classList.remove('up');
       open = []; found++; good(); addStar();
       $('#bar').style.width = (found / 4 * 100) + '%';
-      if (found === 4) setTimeout(() => finish(moves <= 6 ? 5 : moves <= 9 ? 4 : 3), 1000);
+      if (found === 4) setTimeout(() => { wrong = Math.max(0, moves - 4); finish(moves <= 6 ? 5 : moves <= 9 ? 4 : 3); }, 1000);
     } else {
       bad();
       setTimeout(() => { open.forEach(x => { x.classList.remove('up'); x.textContent = '❓'; }); open = []; }, 800);
@@ -521,6 +530,7 @@ function finish(s) {
   const msgs = ['Yana urinib ko\'ramiz!', 'Yaxshi!', 'Zo\'r!', 'Barakalla!', 'Ajoyib!', 'Chempionsan!'];
   $('#resTitle').textContent = msgs[Math.min(s, 5)];
   $('#resStars').textContent = '⭐'.repeat(Math.max(1, Math.min(s, 5)));
+  $('#resScore').innerHTML = `<span class="ok-count">✅ To'g'ri: ${s}</span><span class="bad-count">❌ Noto'g'ri: ${wrong}</span>`;
   show('result'); beep([523, 659, 784, 1046]);
 }
  
